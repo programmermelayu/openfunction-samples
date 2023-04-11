@@ -1,10 +1,16 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
+  annotations:
+      openfunction.io/revision-controller: enable
+      openfunction.io/revision-controller-params: |
+        type: source
+        repo-type: github
+        polling-interval: 1m   
   name: function-http-java
 spec:
   version: "v2.0.0"
-  image: "openfunctiondev/sample-java-func:v1"
+  image: "programmermelayu/sample-java-func:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -14,9 +20,11 @@ spec:
       FUNC_NAME: "dev.openfunction.samples.HttpFunctionImpl"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
+      url: "https://github.com/programmermelayu/openfunction-samples.git"
       sourceSubPath: "functions/knative/java"
       revision: "main"
+      credentials:
+         name: git-repo-secret
   serving:
     template:
       containers:
